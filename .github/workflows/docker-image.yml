@@ -17,3 +17,16 @@ jobs:
         with:
           username: "${{ secrets.DOCKER_USERNAME }}"
           password: "${{ secrets.DOCKER_PASSWORD }}"
+      - name: Push Docker Image to Docker Hub
+        run: "docker push kammana/gha-pyapp:${GITHUB_SHA::7}"
+      - name: Install yq
+        run: |
+          sudo wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/bin/yq
+          sudo chmod +x /usr/bin/yq
+      - name: Update deployment.yml with latest docker tag
+        run: |
+          # Short commit hash
+          SHORT_SHA=${GITHUB_SHA::7}
+          # Update image tag in deployment.yaml
+          yq -i '.spec.template.spec.containers[0].image = "kammana/gha-pyapp:$SHORT_SHA"' ./k8s/pyapp-deployment.yml
+              

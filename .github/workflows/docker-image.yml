@@ -10,9 +10,6 @@ jobs:
     steps:
       - name: Code Checkout
         uses: actions/checkout@v4
-        with:
-          token: "${{ secrets.GIT_PAT }}"
-          persist-credentials: true
       - name: Build Docker Image
         run: "docker build -t kammana/gha-pyapp:${GITHUB_SHA::7} ."
       - name: Login to Docker Hub
@@ -38,5 +35,4 @@ jobs:
             git config user.email "github-actions@noreply"
             git add k8s/pyapp-deployment.yml
             git commit -m 'docker tag updated by GHA' || echo "Already commited changes"
-            git remote set-url origin https://${{ secrets.GIT_PAT }}@github.com/javahometech/gha-eks.git
             git push origin main

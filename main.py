@@ -4,6 +4,7 @@ import os
 def create_app():
     app = Flask(__name__)
 
+    
     @app.get("/")
     def index():
         message = os.getenv("MESSAGE", "Hello from Flask on Kubernetes! 🚀")

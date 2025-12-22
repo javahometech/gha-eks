@@ -21,7 +21,7 @@ jobs:
           context: .
           push: true
           tags: |
-            kammana/gha-pyapp:${GITHUB_SHA::7}
+            kammana/gha-pyapp:${{ GITHUB_SHA::7 }}
       - name: Install yq
         run: |
           sudo wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/bin/yq
